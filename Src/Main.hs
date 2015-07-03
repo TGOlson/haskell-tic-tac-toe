@@ -1,4 +1,10 @@
 module Main where
 
+
+import TicTacToe
+
+
 main :: IO ()
-main = putStrLn "Hello world!"
+main = do
+  putStr "And the winner is: "
+  print $ playTicTacToe ticTacToe
