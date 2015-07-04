@@ -16,17 +16,18 @@ build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
 
+
 executable haskell-tic-tac-toe
   main-is:             Main.hs
   hs-source-dirs:      Src
   -- other-modules:
   -- other-extensions:
-  build-depends:       base >=4.5 && <5.0,
-                       deterministic-game-engine
+  build-depends:       base >=4.0 && <5.0,
+                       deterministic-game-engine ==0.2.1
 
   default-language:    Haskell2010
 
---
+
 test-suite test
   hs-source-dirs:   Spec
   main-is:          Spec.hs

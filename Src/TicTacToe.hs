@@ -5,7 +5,9 @@ import Board
 import Player
 
 
-data TicTacToe = TicTacToe (GameEngine [Symbol] (Int, Symbol))
+newtype TicTacToe = TicTacToe {
+    getTicTacToe :: GameEngine [Symbol] (Int, Symbol)
+  }
 
 
 type TicTacToeState = GameState [Symbol]
@@ -21,9 +23,9 @@ getCurrentPlayer (GameState xs) = if pXCount > pOCount then playerO else playerX
         pOCount = length $ filter isPlayerOSymbol xs
 
 
-getCurrentMoves :: TicTacToeState -> [Move (Int, Symbol)]
+getCurrentMove :: TicTacToeState -> Move (Int, Symbol)
 -- always move in the first position, for now
-getCurrentMoves gameState = [Move (0, symbol)]
+getCurrentMove gameState = Move (0, symbol)
   where (Player symbol) = getCurrentPlayer gameState
 
 
@@ -34,7 +36,7 @@ makeMove (GameState (_:xs)) (Move (_, s)) = GameState (s:xs)
 gameRules :: GameActions [Symbol] (Int, Symbol)
 gameRules = GameActions {
     getPlayer = getCurrentPlayer,
-    getMoves  = getCurrentMoves,
+    getMove   = getCurrentMove,
     getResult = makeMove,
 
     -- end game after each player moves once, for now
@@ -49,5 +51,5 @@ ticTacToe :: TicTacToe
 ticTacToe = TicTacToe $ GameEngine gameRules initialGameState
 
 
-playTicTacToe :: TicTacToe -> Int
-playTicTacToe (TicTacToe engine) = play engine
+playTicTacToe :: TicTacToe -> IO Int
+playTicTacToe = playIO print . getTicTacToe
